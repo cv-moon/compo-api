@@ -32,10 +32,29 @@
       </li>
     </ul>
   </div>
+  <button @click="isOpen = true">Crear Todo</button>
+
+  <!--Modal-->
+  <modal v-if="isOpen" @on:close="isOpen = false">
+    <template v-slot:header>
+      <h1>Nueva Tarea</h1>
+    </template>
+    <template v-slot:body>
+      <form>
+        <input type="text" placeholder="Nueva Tarea" />
+      </form>
+      <br />
+      <br />
+      <button type="submit">Crear</button>
+    </template>
+  </modal>
 </template>
 <script>
 import useTodos from "../composables/useTodos";
+import Modal from "../components/Modal";
+import { ref } from "vue";
 export default {
+  components: { Modal },
   setup() {
     const { pending, currentTab, getTodosByTab, toggleTodo } = useTodos();
 
@@ -44,6 +63,7 @@ export default {
       currentTab,
       getTodosByTab,
       toggleTodo,
+      isOpen: ref(false),
     };
   },
 };
